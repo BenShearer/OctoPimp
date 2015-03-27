@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using OctoPimp.Interfaces;
 using Octopus.Client;
 using Octopus.Client.Model;
 
 namespace OctoPimp {
-    public class OctoServiceWrapper {
+    public class OctoServiceWrapper : IOctoServiceWrapper{
         private readonly IOctopusClient octopusClient;
 
         public OctoServiceWrapper(IOctopusClient octopusClient) {

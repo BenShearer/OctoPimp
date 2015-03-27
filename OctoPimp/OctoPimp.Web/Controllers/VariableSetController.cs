@@ -10,12 +10,14 @@ using Octopus.Client.Model;
 namespace OctoPimp.Web.Controllers
 {
     public class VariableSetController : Controller {
+        private readonly IOctopusClient octopusClient;
 
         private OctopusClient Client;
         private OctopusRepository Repo;
         private string Endpoint;
         private string ApiKey;
-        public VariableSetController() {
+        public VariableSetController(IOctopusClient octopusClient) {
+            this.octopusClient = octopusClient;
 
             Endpoint = ConfigurationManager.AppSettings["Octopus.Api.Endpoint"];
             ApiKey = ConfigurationManager.AppSettings["Octopus.Api.Key"];
