@@ -32,9 +32,5 @@ namespace OctoPimp.Web.Controllers
             return View();
         }
 
-
-
-        private 
-
     }
 }

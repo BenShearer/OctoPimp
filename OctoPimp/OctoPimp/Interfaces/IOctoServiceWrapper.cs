@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace OctoPimp.Interfaces
 {
     public interface IOctoServiceWrapper {
-        IEnumerable<OctoVariableSet_ViewModel> GetAll();
+        IEnumerable<OctoVariableSet_ViewModel> GetAllVariableSets();
 
     }
 }

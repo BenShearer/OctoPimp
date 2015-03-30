@@ -1,34 +1,47 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using OctoPimp.Interfaces;
 using Octopus.Client;
 using Octopus.Client.Model;
 
 namespace OctoPimp {
-    public class OctoServiceWrapper : IOctoServiceWrapper{
-        private readonly IOctopusClient octopusClient;
+    public class OctoServiceWrapper : IOctoServiceWrapper {
+        
+        private readonly IOctopusRepository octopusRepository;
 
-        public OctoServiceWrapper(IOctopusClient octopusClient) {
-            this.octopusClient = octopusClient;
+        public OctoServiceWrapper(IOctopusRepository octopusRepository) {
+          
+            this.octopusRepository = octopusRepository;
         }
 
-        public IEnumerable<OctoVariableSet_ViewModel> GetAll() {
-            //var vSets = octopusRepository.LibraryVariableSets.FindAll();
+        public IEnumerable<OctoVariableSet_ViewModel> GetAllVariableSets() {
+            var libraryVariableSets = octopusRepository.LibraryVariableSets.FindAll();
 
-            //foreach (var vs in vSets) {
+            var outputList = new List<OctoVariableSet_ViewModel>();
+            foreach (var set in libraryVariableSets) {
+                outputList.Add(new OctoVariableSet_ViewModel {
+                    Id = set.Id,
+                    Description = set.Description,
+                    Name = set.Name,
+                    Variables = GetVariablesForSet(set)
+                });
+            }
+            return outputList;
+        }
 
-            //    yield return new OctoVariableSet_ViewModel {
-            //        Name = vs.Name,
-            //        Description = vs.Description,
-            //        Id = vs.Id
-            //    };
-            //}
+        public IEnumerable<OctoVariable_ViewModel> GetVariablesForSet(LibraryVariableSetResource set) {
+            
+            var variableSetRes = octopusRepository.VariableSets.Get(set.VariableSetId);
+            var outputList = new List<OctoVariable_ViewModel>();
 
-            var librarySets = octopusClient.List<VariableSetResource>();
-            librarySets.Items.ToList().ForEach(x => {
-                
-                
-            });
+            foreach (var octoVar in variableSetRes.Variables) {
+                outputList.Add(new OctoVariable_ViewModel {
+                    Name = octoVar.Name,
+                    Value = octoVar.Value,
+                    Id=octoVar.Id
+
+                });
+            }
+            return outputList;
         }
     }
 
@@ -36,6 +49,12 @@ namespace OctoPimp {
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public IEnumerable<> 
+        public IEnumerable<OctoVariable_ViewModel> Variables { get; set; }
+    }
+
+    public class OctoVariable_ViewModel {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 }
