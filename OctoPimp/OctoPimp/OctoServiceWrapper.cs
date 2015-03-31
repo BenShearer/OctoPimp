@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AutoMapper;
 using OctoPimp.Interfaces;
 using Octopus.Client;
 using Octopus.Client.Model;
@@ -42,6 +43,25 @@ namespace OctoPimp {
                 });
             }
             return outputList;
+        }
+
+
+        public OctoVariableSet_ViewModel CreateVariableSet(string name) {
+            var varSet = octopusRepository.LibraryVariableSets.Create(new LibraryVariableSetResource { Name = name });
+
+            return Mapper.Map<OctoVariableSet_ViewModel>(varSet);
+
+
+        }
+
+        public void DeleteOctoVariableSet(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<OctoVariableSet_ViewModel> MoveVariable(string id, string targetVariableSetId, string originVariableSetId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 
